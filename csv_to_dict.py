@@ -11,7 +11,7 @@ list_of_headings = first_line_of_file.split(",") # this turns the string from th
 #tester#print(list_of_headings)
 
 dict_of_org_data ={} # empty dictionary where all the org data will be sorted into 
-i = 0
+i = 0 # defining var i for for loop
 for i in list_of_headings: # this for loop adds dictionary items with the key being the header words and the value of the key is an empty list to add the header specific data to
     dict_of_org_data[i] = []
 
@@ -24,10 +24,12 @@ for line in Data_on_organisations:# this for loop loops through the remaining li
     #tester#print(line)
     current_line_list = line.split(",") # this turns the current line's string into a list, with each item corresponding to a key in the dictionary 
     a = 0     # iterator 
-    for item in current_line_list:
-        dict_of_org_data[list_of_org_dict_keys[a]].append(item)
+    for item in current_line_list: # this moves the data from each list object to the corresponding dictionary list to group data together in its categories 
+        dict_of_org_data[list_of_org_dict_keys[a]].append(item) # list_of_org_dict_keys[a] gives the corresponding key, var a makes sure the key changes to the right one to allow for list appending, 
         #print(dict_of_org_data[list_of_org_dict_keys[a]])
-        a += 1
+        a += 1 #adds to a so its the correct list 
+
+
 
 #tester#print(dict_of_org_data[list_of_org_dict_keys[0]])    # this returns the list set to the first key
 #tester#print(dict_of_org_data[list_of_org_dict_keys[1]]) 
