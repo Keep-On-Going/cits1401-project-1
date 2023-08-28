@@ -30,8 +30,12 @@ for line in Data_on_organisations:# this for loop loops through the remaining li
         a += 1
 
 #tester#print(dict_of_org_data[list_of_org_dict_keys[0]])    # this returns the list set to the first key
-print(dict_of_org_data[list_of_org_dict_keys[1]]) 
-print(dict_of_org_data[list_of_org_dict_keys[2]]) 
-print(dict_of_org_data[list_of_org_dict_keys[3]]) 
-print(dict_of_org_data[list_of_org_dict_keys[4]]) 
-print(dict_of_org_data[list_of_org_dict_keys[5]]) 
+#tester#print(dict_of_org_data[list_of_org_dict_keys[1]]) 
+#tester#print(dict_of_org_data[list_of_org_dict_keys[2]]) 
+#tester#print(dict_of_org_data[list_of_org_dict_keys[3]]) 
+#tester#print(dict_of_org_data[list_of_org_dict_keys[4]]) 
+#tester#print(dict_of_org_data[list_of_org_dict_keys[5]]) 
+#tester#print(dict_of_org_data[list_of_org_dict_keys[6]] 
+#tester#print(dict_of_org_data[list_of_org_dict_keys[7]]) 
+#tester#print(dict_of_org_data[list_of_org_dict_keys[8]]) 
+#tester#print(dict_of_org_data[list_of_org_dict_keys[9]]) 
