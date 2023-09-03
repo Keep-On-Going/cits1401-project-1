@@ -7,8 +7,16 @@
 
 
 # The below file object is created with the understanding that the csv file is in the same repository as the code, if its not it needs to be changed 
-Data_on_organisations = open("Organisations.csv","r") # this creates a file object, the object is set to read which only allows us to read the data about organisations
+#Data_on_organisations = open("Organisations.csv","r") # this creates a file object, the object is set to read which only allows us to read the data about organisations
 # note the file is meant to take an output from the 
 
-print(Data_on_organisations.readline())
-
+def main(csvfile,country):
+    if ".csv" not in csvfile: # this if statement is there to make sure the correct file is opened later. 
+        print("csv not present")
+        print(csvfile
+              )
+        csvfile = csvfile +".csv"
+        print(csvfile)
+    
+    
+    return None
