@@ -16,7 +16,7 @@ def csv_file_appender(csvfile): # makes sure the file has the .csv ending to all
         #print(csvfile)
     return csvfile
 
-def lowercase_initial_country(target_country_name):
+def lowercase_initial_country(target_country_name): # lowecases the inputed country
     return target_country_name.lower()
 
 def csv_to_dict(file_name):# file_name can be the path with the file name 
@@ -49,19 +49,6 @@ def csv_to_dict(file_name):# file_name can be the path with the file name
             a += 1 #adds to a so its the correct list 
     return [dict_of_org_data, list_of_org_dict_keys] # the function returns a list which contains the dictionary with all the sorted data and also the list of dictionary keys 
 
-def pos_of_keys(dictionary_of_csv,headerlookingfor):
-    position = 0
-    print(dictionary_of_csv[1])
-    for i in dictionary_of_csv[1]: # this checks which list it is
-        #if i == headerlookingfor:
-            #print(i)
-            #print(position)
-        #    return position
-        if i.lower() == headerlookingfor.lower():
-            return position
-        position += 1
-    else: return None
-
 def rangecheck(lowrange,highrange,pos_list,pos_header,csv_dict): # checks poslit item's (list of location of items of valid countries) years is within int lowrange and int highrange inclusive, outputs positions that match
     valid_pos = [] # empty list to store 
     for i in pos_list:
@@ -77,7 +64,7 @@ def positions_of_items(csv_dict,pos_header,term_find): # a function to find posi
             positions_in_list.append(pos)
     return positions_in_list
 
-def pos_of_keys(dictionary_of_csv,headerlookingfor):
+def pos_of_keys(dictionary_of_csv,headerlookingfor):# this function finds the position in the header list that returns the header we want
     position = 0
     #print(dictionary_of_csv[1]) # this prints out the header list
     for i in dictionary_of_csv[1]: # this checks which list it is
@@ -91,7 +78,7 @@ def pos_of_keys(dictionary_of_csv,headerlookingfor):
         position += 1
     else: return None
 
-def positions_of_items(csv_dict,pos_header,term_find): # a function to find positions of objects that correspond to the term_find, csv_dict is the list containing all the data
+def positions_of_items(csv_dict,pos_header,term_find): # a function to find positions of objects that correspond to the term_find, csv_dict is the list containing all the data, returns a list of the valid objects, note since its a list and the header line is not in the dictionary lists the values outputted are 2 less than the excel's position value
     positions_in_list = [] # a blank list to append item positions to
     pos = 0
     for i in csv_dict[0][csv_dict[1][pos_header]]:
@@ -105,9 +92,10 @@ def main(csvfile,country):
     csvfile = csv_file_appender(csvfile)   # adds csv to the file
     csv_data = csv_to_dict(csvfile) # this creates a list that contains the headers and a dictionary that contains lists of all the data under each header   
     country = lowercase_initial_country(country) # this lowercase the inputed country
-    Country_in_header_list = pos_of_keys(csv_data,"Country") # this will return the position in the list of headers that the country header is stored so that the header key can be called to call the list storing country name of each organisation    
+    Country_in_header_list = pos_of_keys(csv_data,"country") # this will return the position in the list of headers that the country header is stored so that the header key can be called to call the list storing country name of each organisation    
     Companies_that_meet_target_country = positions_of_items(csv_data, Country_in_header_list,country)
     print(Companies_that_meet_target_country)
     return None
 
 main("Organisations.csv","Australia")
+main("Organisations.csv","Korea")
