@@ -11,7 +11,6 @@
 upper_year_limit = 2000
 lower_year_limit = 1981
 
-
 def csv_file_appender(csvfile): # makes sure the file has the .csv ending to allow for correct file call 
     if ".csv" not in csvfile:
         #print("csv not present")
@@ -98,6 +97,28 @@ def rangecheck(lowrange,highrange,pos_list,pos_header,csv_dict): # checks poslit
             valid_pos.append(i)
     return valid_pos # returns the list positions of the items within year range
 
+# returns list with max and min company positions
+def high_and_low_count(csv_dict,poslist,pos_header): #poslist is the list of positions
+    start_number = int(csv_dict[0][csv_dict[1][pos_header]][0])
+    print(type(start_number))
+    largest_number = start_number
+    smallest_number = start_number
+    max_company_list_pos = poslist[0]
+    min_company_list_pos = poslist[0] 
+
+    print()
+
+    for i in poslist:
+        print(csv_dict[0][csv_dict[1][pos_header]][i])
+        if int(csv_dict[0][csv_dict[1][pos_header]][i]) > largest_number:
+            largest_number =  int(csv_dict[0][csv_dict[1][pos_header]][i])
+            max_company_list_pos = i 
+        if  smallest_number > int(csv_dict[0][csv_dict[1][pos_header]][i]): #min not correct right now 
+            smallest_number = int(csv_dict[0][csv_dict[1][pos_header]][i])
+            min_company_list_pos = i
+        print(min_company_list_pos)
+    return [max_company_list_pos,min_company_list_pos]      
+
 def main(csvfile,country):
     csvfile = csv_file_appender(csvfile)   # adds csv to the file
     csv_data = csv_to_dict(csvfile) # this creates a list that contains the headers and a dictionary that contains lists of all the data under each header   
@@ -106,11 +127,13 @@ def main(csvfile,country):
     Companies_in_target_country = positions_of_items(csv_data, pos_Country_in_header_list,country)
     pos_Founded_year_in_header_list = pos_of_keys(csv_data,"founded") # this will return the position in the list of headers that the founded year header is stored so that the header key can be called to call the list storing year of founding of each organisation    
     Companies_in_target_years_and_country = rangecheck(lower_year_limit,upper_year_limit,Companies_in_target_country, pos_Founded_year_in_header_list,csv_data)
+    pos_Number_of_employees_in_header_list = pos_of_keys(csv_data,"Number of employees")
+    
+    #print(Companies_in_target_years_and_country)
+    #print(pos_Number_of_employees_in_header_list)
+    highest_lowest_employ = high_and_low_count(csv_data,Companies_in_target_years_and_country,pos_Number_of_employees_in_header_list)
+    #print(highest_lowest_employ)
 
-    #print(pos_Country_in_header_list)
-    #print(pos_Founded_year_in_header_list)
-    print(Companies_in_target_years_and_country)
-    #print(Companies_in_target_country)
     return None
 
 main("Organisations.csv","Australia")
