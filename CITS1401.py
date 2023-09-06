@@ -120,6 +120,36 @@ def min_max_company_name(csv_dict,poslist,pos_header): # poslist is the list fro
         nameslist.append(csv_dict[0][csv_dict[1][pos_header]][i])
     return nameslist
 
+def pos_of_numbers(csv_dict,str_key_header):
+    positions_in_list = [] # a blank list to append item positions to
+    pos = 0
+    for i in csv_dict[0][csv_dict[1][str_key_header]]:
+        positions_in_list.append(pos)
+        pos += 1    
+    return positions_in_list
+
+def standard_deviation_calculator(csv_dict,pos_list,pos_header): # pos_list is the list of valid object positions, pos_header is the dictionary key we want
+    object_amount = len(pos_list)
+    #print(object_amount)
+
+    #calc mean of the area
+    sum_total = 0
+    for i in pos_list:
+        sum_total += int(csv_dict[0][csv_dict[1][pos_header]][i])
+    #print(sum_total)
+
+    mean = sum_total/object_amount
+
+    #sum of the difference between object and mean
+    diff_sum = 0
+    for i in pos_list:
+        diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)**2
+
+    #division by (number of objects - 1) and then square root
+    Stand_Dev = (diff_sum/(object_amount-1))**(0.5)
+    return Stand_Dev
+
+
 def main(csvfile,country):
     csvfile = csv_file_appender(csvfile)   # adds csv to the file
     csv_data = csv_to_dict(csvfile) # this creates a list that contains the headers and a dictionary that contains lists of all the data under each header   
@@ -130,21 +160,32 @@ def main(csvfile,country):
     pos_Founded_year_in_header_list = pos_of_keys(csv_data,"founded") # this will return the position in the list of headers that the founded year header is stored so that the header key can be called to call the list storing year of founding of each organisation    
     pos_Number_of_employees_in_header_list = pos_of_keys(csv_data,"Number of employees")
     pos_company_names_in_header_list = pos_of_keys(csv_data,"Name")
+    pos_median_salary_in_header_list = pos_of_keys(csv_data,"Median Salary")
 
     #country check
     companies_in_target_country = positions_of_items(csv_data, pos_Country_in_header_list,country)
+
+    #list of all organisations median salary positions, for use in total org medium salary standard deviation
+    all_org_median_salary_pos = pos_of_numbers(csv_data,pos_median_salary_in_header_list)
+    #print(all_org_median_salary_pos )
     
     #q1
     Companies_in_target_years_and_country = rangecheck(csv_data,lower_year_limit,upper_year_limit,companies_in_target_country, pos_Founded_year_in_header_list)
     highest_lowest_employ = high_and_low_count(csv_data,Companies_in_target_years_and_country,pos_Number_of_employees_in_header_list)
     companies_max_and_min_employee_list = min_max_company_name(csv_data,highest_lowest_employ,pos_company_names_in_header_list) # q1 answer 
-    #q1 answer 
+    #q1 answer ^, this contains the list of the solutions 
+    #print(companies_max_and_min_employee_list)
+
+    #q2 country SD
+    Country_SD = standard_deviation_calculator(csv_data,companies_in_target_country,pos_median_salary_in_header_list)
+    print("Country_SD:" ,str(Country_SD))
     
-    #q2
 
-
+    #q2 total org SD 
+    Total_org_SD = standard_deviation_calculator(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list)
+    print("Total_org_SD:", str(Total_org_SD))
 
     return None
 
 main("Organisations.csv","Australia")
-main("Organisations.csv","Korea")
+#main("Organisations.csv","Korea")
