@@ -69,13 +69,47 @@ def rangecheck(lowrange,highrange,pos_list,pos_header,csv_dict): # checks poslit
             valid_pos.append(i)
     return valid_pos # returns the list positions of the items within year range
 
+def positions_of_items(csv_dict,pos_header,term_find): # a function to find positions of objects that correspond to the term_find, csv_dict is the list containing all the data
+    positions_in_list = [] # a blank list to append item positions to
+    pos = 0
+    for i in csv_dict[1][csv_dict[0][pos_header]]:
+        if i == term_find:
+            positions_in_list.append(pos)
+    return positions_in_list
 
+def pos_of_keys(dictionary_of_csv,headerlookingfor):
+    position = 0
+    #print(dictionary_of_csv[1]) # this prints out the header list
+    for i in dictionary_of_csv[1]: # this checks which list it is
+        #if i == headerlookingfor:
+            #print(i)
+            #print(position)
+        #    return position
+        if i.lower() == headerlookingfor.lower():
+            print(position)
+            return position
+        position += 1
+    else: return None
+
+def positions_of_items(csv_dict,pos_header,term_find): # a function to find positions of objects that correspond to the term_find, csv_dict is the list containing all the data
+    positions_in_list = [] # a blank list to append item positions to
+    pos = 0
+    for i in csv_dict[1][csv_dict[0][pos_header]]:
+        if i.lower() == term_find.lower():
+            positions_in_list.append(pos)
+        pos += 1    
+    return positions_in_list
 
 
 def main(csvfile,country):
-    csvfile = csv_file_appender(csvfile)   
-    csv_data = csv_to_dict(csvfile)    
-    country = lowercase_initial_country(country) 
+    csvfile = csv_file_appender(csvfile)   # adds csv to the file
+    csv_data = csv_to_dict(csvfile) # this creates a list that contains the headers and a dictionary that contains lists of all the data under each header   
+    country = lowercase_initial_country(country) # this lowercase the inputed country
+    Country_in_header_list = pos_of_keys(csv_data,"Country") # this will return the position in the list of headers that the country header is stored so that the header key can be called to call the list storing country name of each organisation 
     
-    
+    print(csv_data[1])
+    #Companies_that_meet_target_country = positions_of_items(csv_data, csv_data[0][Country_in_header_list],country)
+    #print(Companies_that_meet_target_country)
     return None
+
+main("Organisations.csv","Australia")
