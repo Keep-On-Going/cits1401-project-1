@@ -86,7 +86,7 @@ def pos_of_keys(dictionary_of_csv,headerlookingfor):
             #print(position)
         #    return position
         if i.lower() == headerlookingfor.lower():
-            print(position)
+            #print(position)
             return position
         position += 1
     else: return None
@@ -94,7 +94,7 @@ def pos_of_keys(dictionary_of_csv,headerlookingfor):
 def positions_of_items(csv_dict,pos_header,term_find): # a function to find positions of objects that correspond to the term_find, csv_dict is the list containing all the data
     positions_in_list = [] # a blank list to append item positions to
     pos = 0
-    for i in csv_dict[1][csv_dict[0][pos_header]]:
+    for i in csv_dict[0][csv_dict[1][pos_header]]:
         if i.lower() == term_find.lower():
             positions_in_list.append(pos)
         pos += 1    
@@ -105,11 +105,9 @@ def main(csvfile,country):
     csvfile = csv_file_appender(csvfile)   # adds csv to the file
     csv_data = csv_to_dict(csvfile) # this creates a list that contains the headers and a dictionary that contains lists of all the data under each header   
     country = lowercase_initial_country(country) # this lowercase the inputed country
-    Country_in_header_list = pos_of_keys(csv_data,"Country") # this will return the position in the list of headers that the country header is stored so that the header key can be called to call the list storing country name of each organisation 
-    
-    print(csv_data[1])
-    #Companies_that_meet_target_country = positions_of_items(csv_data, csv_data[0][Country_in_header_list],country)
-    #print(Companies_that_meet_target_country)
+    Country_in_header_list = pos_of_keys(csv_data,"Country") # this will return the position in the list of headers that the country header is stored so that the header key can be called to call the list storing country name of each organisation    
+    Companies_that_meet_target_country = positions_of_items(csv_data, Country_in_header_list,country)
+    print(Companies_that_meet_target_country)
     return None
 
 main("Organisations.csv","Australia")

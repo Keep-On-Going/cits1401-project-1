@@ -1,4 +1,6 @@
-# this snippet of code will turn the csv file into a dictionary "Organisations.csv"
+# this snippet of code will turn the csv file into a dictionary "Organisations.csv", list posiiton 1 contains the headers, 
+#list position 0 contains the dictionary of data, with the corrsponding data of each header in a list under the header key
+
 def csv_to_dict(file_name):# file_name can be the path with the file name 
     Data_on_organisations = open(file_name,"r") # this creates a file object, the object is set to read which only allows us to read the data about organisations
     # note the file is meant to take an output from the 
