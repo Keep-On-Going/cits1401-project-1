@@ -179,11 +179,13 @@ def main(csvfile,country):
     #q2 country SD
     Country_SD = standard_deviation_calculator(csv_data,companies_in_target_country,pos_median_salary_in_header_list)
     print("Country_SD:" ,str(Country_SD))
-    
-
     #q2 total org SD 
     Total_org_SD = standard_deviation_calculator(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list)
     print("Total_org_SD:", str(Total_org_SD))
+    # standard dev [country, total]
+    Calculated_SD = [Country_SD,Total_org_SD]
+
+    #q4, work on this before q3
 
     return None
 
