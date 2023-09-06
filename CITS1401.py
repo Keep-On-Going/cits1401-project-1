@@ -131,15 +131,17 @@ def main(csvfile,country):
     pos_Number_of_employees_in_header_list = pos_of_keys(csv_data,"Number of employees")
     pos_company_names_in_header_list = pos_of_keys(csv_data,"Name")
 
-    #q1
+    #country check
     companies_in_target_country = positions_of_items(csv_data, pos_Country_in_header_list,country)
+    
+    #q1
     Companies_in_target_years_and_country = rangecheck(csv_data,lower_year_limit,upper_year_limit,companies_in_target_country, pos_Founded_year_in_header_list)
     highest_lowest_employ = high_and_low_count(csv_data,Companies_in_target_years_and_country,pos_Number_of_employees_in_header_list)
     companies_max_and_min_employee_list = min_max_company_name(csv_data,highest_lowest_employ,pos_company_names_in_header_list) # q1 answer 
     #q1 answer 
     
-
     #q2
+
 
 
     return None
