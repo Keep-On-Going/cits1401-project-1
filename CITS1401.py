@@ -150,6 +150,63 @@ def standard_deviation_calculator(csv_dict,pos_list,pos_header): # pos_list is t
     return Stand_Dev
 
 
+# returns the amount of money that did net profit and then those that did net loss between 2021 and 2020
+def net_diff(csv_dict,pos_list,pos_header_21,pos_header_20): # pos_list is the list of valid object positions, pos_header is the location of dictionary key we want in the header list
+    pos_dif = []
+    neg_dif = []
+    pos_dif_pos = []
+    neg_dif_pos = []
+    for i in pos_list:
+        difference = int(csv_dict[0][csv_dict[1][pos_header_21]][i])- int(csv_dict[0][csv_dict[1][pos_header_20]][i])
+        print(difference)
+        if difference >= 0:
+            pos_dif.append(difference)
+            pos_dif_pos.append(i)
+        elif difference < 0:
+            neg_dif.append(difference)
+            neg_dif_pos.append(i)
+        print([pos_dif,neg_dif])
+    return [pos_dif,neg_dif,pos_dif_pos,neg_dif_pos]
+
+
+#calculates the ratio of net pos/net neg 
+def ratio_calc(list_of_pos_neg):
+    abs_pos_vals = abs(sum(list_of_pos_neg[0]))
+    abs_neg_vals = abs(sum(list_of_pos_neg[1]))
+    #print(abs_pos_vals)
+    #print(abs_neg_vals)
+    ratio = abs_pos_vals/abs_neg_vals
+    # check how many 
+    return ratio
+
+#q4 functions 
+def mean_calc(csv_dict,pos_list,pos_header): # pos header is the numerical list position of the header in the header list
+    object_amount = len(pos_list)
+    #calc mean of the area
+    sum_total = 0
+    for i in pos_list:
+        sum_total += int(csv_dict[0][csv_dict[1][pos_header]][i])
+    mean = sum_total/object_amount
+
+# this is the numerator 
+def diff_sum_xy(csv_dict,pos_list,mean,pos_header,mean2,pos_header2):
+    diff_sum = 0
+    for i in pos_list:
+        diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)(int(csv_dict[0][csv_dict[1][pos_header2]][i])-mean2)
+    print(diff_sum)
+
+#this needs to be calced for x and y and then multiplied together for demominator 
+def diff_sum_squared(csv_dict,pos_list,pos_header,mean):
+    diff_sum = 0
+    for i in pos_list:
+        diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)**2
+    print(diff_sum)
+
+
+def correlation_calc(numerator,denominator):
+    correlation = numerator/(denominator)**0.5  
+
+
 def main(csvfile,country):
     csvfile = csv_file_appender(csvfile)   # adds csv to the file
     csv_data = csv_to_dict(csvfile) # this creates a list that contains the headers and a dictionary that contains lists of all the data under each header   
@@ -161,6 +218,8 @@ def main(csvfile,country):
     pos_Number_of_employees_in_header_list = pos_of_keys(csv_data,"Number of employees")
     pos_company_names_in_header_list = pos_of_keys(csv_data,"Name")
     pos_median_salary_in_header_list = pos_of_keys(csv_data,"Median Salary")
+    pos_21_profit_in_header_list = pos_of_keys(csv_data,"Profits in 2021(Million)")
+    pos_20_profit_in_header_list = pos_of_keys(csv_data,"Profits in 2020(Million)")
 
     #country check
     companies_in_target_country = positions_of_items(csv_data, pos_Country_in_header_list,country)
@@ -185,8 +244,16 @@ def main(csvfile,country):
     # standard dev [country, total]
     Calculated_SD = [Country_SD,Total_org_SD]
 
-    #q4, work on this before q3
+    #q3
+    pos_neg_profit = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
+    pos_neg_ratio = ratio_calc(pos_neg_profit)
+    print(pos_neg_ratio)
 
+    #q4
+    pos_neg_profit_numerical = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
+    country_met_profit_country = pos_neg_profit[2]
+    median_salary_mean = mean_calc(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list)
+    profits_mean = mean_calc(csv_data,country_met_profit_country,pos_21_profit_in_header_list)
     return None
 
 main("Organisations.csv","Australia")

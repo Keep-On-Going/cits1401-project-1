@@ -1,4 +1,4 @@
-def standard_deviation_calculator(csv_dict,pos_list,pos_header):
+def standard_deviation_calculator(csv_dict,pos_list,pos_header): # pos header is the numerical list position of the header in the header list
     object_amount = len(pos_list)
     #calc mean of the area
     sum_total = 0
