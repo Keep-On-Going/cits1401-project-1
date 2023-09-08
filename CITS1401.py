@@ -150,6 +150,8 @@ def standard_deviation_calculator(csv_dict,pos_list,pos_header): # pos_list is t
     return Stand_Dev
 
 
+
+# something here screwerd 
 # returns the amount of money that did net profit and then those that did net loss between 2021 and 2020
 def net_diff(csv_dict,pos_list,pos_header_21,pos_header_20): # pos_list is the list of valid object positions, pos_header is the location of dictionary key we want in the header list
     pos_dif = []
@@ -165,7 +167,7 @@ def net_diff(csv_dict,pos_list,pos_header_21,pos_header_20): # pos_list is the l
         elif difference < 0:
             neg_dif.append(difference)
             neg_dif_pos.append(i)
-        print([pos_dif,neg_dif])
+    print([pos_dif,neg_dif])
     return [pos_dif,neg_dif,pos_dif_pos,neg_dif_pos]
 
 
@@ -250,10 +252,10 @@ def main(csvfile,country):
     print(pos_neg_ratio)
 
     #q4
-    pos_neg_profit_numerical = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
-    country_met_profit_country = pos_neg_profit[2]
-    median_salary_mean = mean_calc(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list)
-    profits_mean = mean_calc(csv_data,country_met_profit_country,pos_21_profit_in_header_list)
+    #pos_neg_profit_numerical = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
+    #country_met_profit_country = pos_neg_profit[2]
+    #median_salary_mean = mean_calc(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list)
+    #profits_mean = mean_calc(csv_data,country_met_profit_country,pos_21_profit_in_header_list)
     return None
 
 main("Organisations.csv","Australia")
