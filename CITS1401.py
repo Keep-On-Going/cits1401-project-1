@@ -260,17 +260,31 @@ def main(csvfile,country):
     #q4
     #pos_neg_profit_numerical = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
     country_met_profit_country = pos_neg_profit[2] # gives the list positions for the companies that meet criteria
+    print("country_met_profit_country:")
+    print(country_met_profit_country)
+    median_salary_mean = mean_calc(csv_data,country_met_profit_country,pos_median_salary_in_header_list) # mean value of median salary
+    print("median_salary_mean:")
+    print(median_salary_mean)
     
-    
-    #print(country_met_profit_country)
-    median_salary_mean = mean_calc(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list) # mean value of median salary
-    #print(median_salary_mean)
     profits_mean = mean_calc(csv_data,country_met_profit_country,pos_21_profit_in_header_list) # mean value of profits 
+    print("profits_mean")
+    print(profits_mean)
+
     numerator = diff_sum_xy(csv_data,country_met_profit_country,profits_mean,pos_21_profit_in_header_list,median_salary_mean,pos_median_salary_in_header_list)
-    #print(numerator)
+    print("numerator")
+    print(numerator)
+
+
     diff_sum_squared_median = diff_sum_squared(csv_data,country_met_profit_country,pos_median_salary_in_header_list,median_salary_mean)
+    print("diff_sum_squared_median")
+    print(diff_sum_squared_median)
+
     diff_sum_squared_profit = diff_sum_squared(csv_data,country_met_profit_country,pos_21_profit_in_header_list,profits_mean)
-    correlation = correlation_calc(numerator,diff_sum_squared_median+diff_sum_squared_profit)
+    #print("diff_sum_squared_profit")
+    #print(diff_sum_squared_profit)
+
+
+    correlation = correlation_calc(numerator,diff_sum_squared_median*diff_sum_squared_profit)
     correlation = round(correlation,4)
     print("Correlation:",str(correlation))
     return None
