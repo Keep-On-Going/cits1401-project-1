@@ -99,6 +99,7 @@ def rangecheck(csv_dict,lowrange,highrange,pos_list,pos_header): # checks poslit
 
 # returns list with max and min company positions
 def high_and_low_count(csv_dict,poslist,pos_header): #poslist is the list of positions of data in the dictionary lists
+    # Defining variables for the function calculation 
     start_number = int(csv_dict[0][csv_dict[1][pos_header]][poslist[0]])
     largest_number = start_number
     smallest_number = start_number
@@ -154,6 +155,7 @@ def standard_deviation_calculator(csv_dict,pos_list,pos_header): # pos_list is t
 # something here screwerd 
 # returns the amount of money that did net profit and then those that did net loss between 2021 and 2020
 def net_diff(csv_dict,pos_list,pos_header_21,pos_header_20): # pos_list is the list of valid object positions, pos_header is the location of dictionary key we want in the header list
+    # defining empty lists for the calculation 
     pos_dif = []
     neg_dif = []
     pos_dif_pos = []
@@ -238,7 +240,8 @@ def main(csvfile,country):
     highest_lowest_employ = high_and_low_count(csv_data,Companies_in_target_years_and_country,pos_Number_of_employees_in_header_list)
     companies_max_and_min_employee_list = min_max_company_name(csv_data,highest_lowest_employ,pos_company_names_in_header_list) # q1 answer 
     #q1 answer ^, this contains the list of the solutions 
-    print("max and min:", str(companies_max_and_min_employee_list))
+    print("max and min:")
+    print(companies_max_and_min_employee_list)
 
     #q2 country SD
     Country_SD = standard_deviation_calculator(csv_data,companies_in_target_country,pos_median_salary_in_header_list)
@@ -249,13 +252,15 @@ def main(csvfile,country):
     #print("Total_org_SD:", str(Total_org_SD))
     # standard dev [country, total]
     Calculated_SD = [round(Country_SD,4),round(Total_org_SD,4)]
-    print("SD:", str(Calculated_SD))
+    print("SD:")
+    print(Calculated_SD)
 
     #q3
     pos_neg_profit = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
     pos_neg_ratio = ratio_calc(pos_neg_profit)
     pos_neg_ratio = round(pos_neg_ratio,4)
-    print("Ratio:",str(pos_neg_ratio))
+    print("Ratio:")
+    print(pos_neg_ratio)
 
     #q4
     #pos_neg_profit_numerical = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
@@ -286,8 +291,10 @@ def main(csvfile,country):
 
     correlation = correlation_calc(numerator,diff_sum_squared_median*diff_sum_squared_profit)
     correlation = round(correlation,4)
-    print("Correlation:",str(correlation))
-    return None
+    print("Correlation:")
+    print(correlation)
+    return companies_max_and_min_employee_list,Calculated_SD, pos_neg_ratio, correlation
+    #return none
 
-main("Organisations.csv","Australia")
+print(main("Organisations.csv","Australia"))
 #main("Organisations.csv","Korea")
