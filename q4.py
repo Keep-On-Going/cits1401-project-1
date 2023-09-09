@@ -17,7 +17,7 @@ def mean_calc(csv_dict,pos_list,pos_header): # pos header is the numerical list 
 def diff_sum_xy(csv_dict,pos_list,mean,pos_header,mean2,pos_header2):
     diff_sum = 0
     for i in pos_list:
-        diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)(int(csv_dict[0][csv_dict[1][pos_header2]][i])-mean2)
+        diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)*(int(csv_dict[0][csv_dict[1][pos_header2]][i])-mean2)
     print(diff_sum)
 
 #this needs to be calced for x and y and then multiplied together for demominator 
@@ -25,8 +25,9 @@ def diff_sum_squared(csv_dict,pos_list,pos_header,mean):
     diff_sum = 0
     for i in pos_list:
         diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)**2
-    print(diff_sum)
+    return diff_sum
 
 
 def correlation_calc(numerator,denominator):
-    correlation = numerator/(denominator)**0.5                                                                   
+    correlation = numerator/(denominator)**0.5        
+    return correlation

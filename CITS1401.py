@@ -160,14 +160,14 @@ def net_diff(csv_dict,pos_list,pos_header_21,pos_header_20): # pos_list is the l
     neg_dif_pos = []
     for i in pos_list:
         difference = int(csv_dict[0][csv_dict[1][pos_header_21]][i])- int(csv_dict[0][csv_dict[1][pos_header_20]][i])
-        print(difference)
+        #print(difference)
         if difference >= 0:
             pos_dif.append(difference)
             pos_dif_pos.append(i)
         elif difference < 0:
             neg_dif.append(difference)
             neg_dif_pos.append(i)
-    print([pos_dif,neg_dif])
+    #print([pos_dif,neg_dif,pos_dif_pos,neg_dif_pos])
     return [pos_dif,neg_dif,pos_dif_pos,neg_dif_pos]
 
 
@@ -189,25 +189,28 @@ def mean_calc(csv_dict,pos_list,pos_header): # pos header is the numerical list 
     for i in pos_list:
         sum_total += int(csv_dict[0][csv_dict[1][pos_header]][i])
     mean = sum_total/object_amount
+    return mean
 
 # this is the numerator 
 def diff_sum_xy(csv_dict,pos_list,mean,pos_header,mean2,pos_header2):
     diff_sum = 0
     for i in pos_list:
-        diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)(int(csv_dict[0][csv_dict[1][pos_header2]][i])-mean2)
-    print(diff_sum)
+        diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)*(int(csv_dict[0][csv_dict[1][pos_header2]][i])-mean2)
+    #print(diff_sum)
+    return diff_sum
 
 #this needs to be calced for x and y and then multiplied together for demominator 
 def diff_sum_squared(csv_dict,pos_list,pos_header,mean):
     diff_sum = 0
     for i in pos_list:
         diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)**2
-    print(diff_sum)
+    #print(diff_sum)
+    return diff_sum
 
 
 def correlation_calc(numerator,denominator):
     correlation = numerator/(denominator)**0.5  
-
+    return correlation
 
 def main(csvfile,country):
     csvfile = csv_file_appender(csvfile)   # adds csv to the file
@@ -235,27 +238,41 @@ def main(csvfile,country):
     highest_lowest_employ = high_and_low_count(csv_data,Companies_in_target_years_and_country,pos_Number_of_employees_in_header_list)
     companies_max_and_min_employee_list = min_max_company_name(csv_data,highest_lowest_employ,pos_company_names_in_header_list) # q1 answer 
     #q1 answer ^, this contains the list of the solutions 
-    #print(companies_max_and_min_employee_list)
+    print("max and min:", str(companies_max_and_min_employee_list))
 
     #q2 country SD
     Country_SD = standard_deviation_calculator(csv_data,companies_in_target_country,pos_median_salary_in_header_list)
-    print("Country_SD:" ,str(Country_SD))
+    #print("Country_SD:" ,str(Country_SD))
+    
     #q2 total org SD 
     Total_org_SD = standard_deviation_calculator(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list)
-    print("Total_org_SD:", str(Total_org_SD))
+    #print("Total_org_SD:", str(Total_org_SD))
     # standard dev [country, total]
-    Calculated_SD = [Country_SD,Total_org_SD]
+    Calculated_SD = [round(Country_SD,4),round(Total_org_SD,4)]
+    print("SD:", str(Calculated_SD))
 
     #q3
     pos_neg_profit = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
     pos_neg_ratio = ratio_calc(pos_neg_profit)
-    print(pos_neg_ratio)
+    pos_neg_ratio = round(pos_neg_ratio,4)
+    print("Ratio:",str(pos_neg_ratio))
 
     #q4
     #pos_neg_profit_numerical = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
-    #country_met_profit_country = pos_neg_profit[2]
-    #median_salary_mean = mean_calc(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list)
-    #profits_mean = mean_calc(csv_data,country_met_profit_country,pos_21_profit_in_header_list)
+    country_met_profit_country = pos_neg_profit[2] # gives the list positions for the companies that meet criteria
+    
+    
+    #print(country_met_profit_country)
+    median_salary_mean = mean_calc(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list) # mean value of median salary
+    #print(median_salary_mean)
+    profits_mean = mean_calc(csv_data,country_met_profit_country,pos_21_profit_in_header_list) # mean value of profits 
+    numerator = diff_sum_xy(csv_data,country_met_profit_country,profits_mean,pos_21_profit_in_header_list,median_salary_mean,pos_median_salary_in_header_list)
+    #print(numerator)
+    diff_sum_squared_median = diff_sum_squared(csv_data,country_met_profit_country,pos_median_salary_in_header_list,median_salary_mean)
+    diff_sum_squared_profit = diff_sum_squared(csv_data,country_met_profit_country,pos_21_profit_in_header_list,profits_mean)
+    correlation = correlation_calc(numerator,diff_sum_squared_median+diff_sum_squared_profit)
+    correlation = round(correlation,4)
+    print("Correlation:",str(correlation))
     return None
 
 main("Organisations.csv","Australia")
