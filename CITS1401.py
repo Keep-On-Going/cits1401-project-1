@@ -296,5 +296,6 @@ def main(csvfile,country):
     return companies_max_and_min_employee_list,Calculated_SD, pos_neg_ratio, correlation
     #return none
 
-print(main("Organisations.csv","Australia"))
+#main("Organisations.csv","Australia")
 #main("Organisations.csv","Korea")
+main("Organisations.csv","El Salvador")
