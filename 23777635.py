@@ -88,12 +88,14 @@ def rangecheck(csv_dict,lowrange,highrange,pos_list,pos_header): # checks poslit
 # returns list with max and min company positions
 def high_and_low_count(csv_dict,poslist,pos_header): #poslist is the list of positions of data in the dictionary lists
     # Defining variables for the function calculation 
+    ###print(int(csv_dict[0][csv_dict[1][pos_header]][poslist[0]]))
     start_number = int(csv_dict[0][csv_dict[1][pos_header]][poslist[0]])
     largest_number = start_number
     smallest_number = start_number
     max_company_list_pos = poslist[0]
     min_company_list_pos = poslist[0] 
     for i in poslist: # finds the largest and smallest employee count 
+        print(i)
         if int(csv_dict[0][csv_dict[1][pos_header]][i]) > largest_number:
             largest_number =  int(csv_dict[0][csv_dict[1][pos_header]][i])
             max_company_list_pos = i 
@@ -202,15 +204,6 @@ def main(csvfile,country):
     except:
         print("Error with csv conversion to a dictionary")
         return [],[],0,0 
-    
-
-    if csv_data[0] == {'':[]}:
-        print("CSV is empty of data")
-        return [],[],0,0 
-
-    if csv_data[1] == ['']:
-        print("Headers list is empty")
-        return [],[],0,0 
 
     try:
         country = lowercase_initial_country(country) # this lowercase the inputed country
@@ -279,9 +272,12 @@ def main(csvfile,country):
     #checking 
     
     Companies_in_target_years_and_country = rangecheck(csv_data,lower_year_limit,upper_year_limit,companies_in_target_country, pos_Founded_year_in_header_list)
-    highest_lowest_employ = high_and_low_count(csv_data,Companies_in_target_years_and_country,pos_Number_of_employees_in_header_list)
-    companies_max_and_min_employee_list = min_max_company_name(csv_data,highest_lowest_employ,pos_company_names_in_header_list) # q1 answer 
-    #q1 answer ^, this contains the list of the solutions 
+    if len(Companies_in_target_years_and_country) == 0:
+         companies_max_and_min_employee_list = []
+    else:
+        highest_lowest_employ = high_and_low_count(csv_data,Companies_in_target_years_and_country,pos_Number_of_employees_in_header_list)
+        companies_max_and_min_employee_list = min_max_company_name(csv_data,highest_lowest_employ,pos_company_names_in_header_list) # q1 answer 
+        #q1 answer ^, this contains the list of the solutions 
 
     #q2 country SD
     if len(companies_in_target_country) > 1:
@@ -320,8 +316,6 @@ def main(csvfile,country):
     return companies_max_and_min_employee_list,Calculated_SD, pos_neg_ratio, correlation
 
 
-print(main("Organisations","Australia"))
+#print(main("Organisations","Australia"))
 #main("Organisations.csv","Korea")
-#main("Organisations.csv","El Salvador")
-#print(main("Organisations.csv","Australia"))
-#print(main("a.csv","Australia"))
+print(main("Organisations.csv","El Salvador"))
