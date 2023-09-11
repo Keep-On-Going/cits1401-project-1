@@ -1,12 +1,5 @@
 #Code by Vincent Jeff Liu, UWA Student ID: 23777635
-# python project 1 for CITS1401
-
-# we need to find a way to manage the csv file data so we can edit it and access it easier and in its orders 
-# so we using a dictionary 
-
-# The below file object is created with the understanding that the csv file is in the same repository as the code, if its not it needs to be changed 
-#Data_on_organisations = open("Organisations.csv","r") # this creates a file object, the object is set to read which only allows us to read the data about organisations
-# note the file is meant to take an output from the 
+#Python project 1 for CITS1401
 
 upper_year_limit = 2000
 lower_year_limit = 1981
@@ -34,7 +27,6 @@ def csv_to_dict(file_name):# file_name can be the path with the file name
         dict_of_org_data[i] = []
 
     list_of_org_dict_keys = list(dict_of_org_data)
-    #tester#print(list_of_org_dict_keys[0])
 
     for line in Data_on_organisations:# this for loop loops through the remaining lines in csv file and sorts the data into the dictionary 
         line = line.replace("\n","") # gets rid of the "\n", the replace function needs to be set to an variable as it outputs a copy of the list
@@ -122,7 +114,6 @@ def standard_deviation_calculator(csv_dict,pos_list,pos_header): # pos_list is t
     sum_total = 0
     for i in pos_list:
         sum_total += int(csv_dict[0][csv_dict[1][pos_header]][i])
-
     mean = sum_total/object_amount
 
     #sum of the difference between object and mean
@@ -156,7 +147,6 @@ def ratio_calc(list_of_pos_neg):
     abs_pos_vals = abs(sum(list_of_pos_neg[0]))
     abs_neg_vals = abs(sum(list_of_pos_neg[1]))
     ratio = abs_pos_vals/abs_neg_vals
-    # check how many 
     return ratio
 
 #q4 functions 
@@ -174,7 +164,6 @@ def diff_sum_xy(csv_dict,pos_list,mean,pos_header,mean2,pos_header2):
     diff_sum = 0
     for i in pos_list:
         diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)*(int(csv_dict[0][csv_dict[1][pos_header2]][i])-mean2)
-
     return diff_sum
 
 #this needs to be calced for x and y and then multiplied together for demominator 
@@ -182,7 +171,6 @@ def diff_sum_squared(csv_dict,pos_list,pos_header,mean):
     diff_sum = 0
     for i in pos_list:
         diff_sum += (int(csv_dict[0][csv_dict[1][pos_header]][i])-mean)**2
-
     return diff_sum
 
 def correlation_calc(numerator,denominator):
@@ -192,13 +180,7 @@ def correlation_calc(numerator,denominator):
 def main(csvfile,country):
 
     csvfile = csv_file_appender(csvfile)   # adds csv to the file
-    
-    try:
-        csv_data = csv_to_dict(csvfile) # this creates a list that contains the a list of the headers and a dictionary (that contains lists of all the data under each header) each in a seperate list space      
-    except:
-        print("Error with csv conversion to a dictionary")
-        return [],[],0,0 
-    
+    csv_data = csv_to_dict(csvfile) # this creates a list that contains the a list of the headers and a dictionary (that contains lists of all the data under each header) each in a seperate list space      
     country = lowercase_initial_country(country) # this lowercase the inputed country  
 
     #functions that find the position of inputed headers (the last arguement) in the headers lists o this respective data can be found later 
