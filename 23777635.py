@@ -190,23 +190,16 @@ def correlation_calc(numerator,denominator):
     return correlation
 
 def main(csvfile,country):
-    try:
-        csvfile = csv_file_appender(csvfile)   # adds csv to the file
-    except:
-        print("Error with inputed file argument")
-        return [],[],0,0 
+
+    csvfile = csv_file_appender(csvfile)   # adds csv to the file
     
     try:
         csv_data = csv_to_dict(csvfile) # this creates a list that contains the a list of the headers and a dictionary (that contains lists of all the data under each header) each in a seperate list space      
     except:
         print("Error with csv conversion to a dictionary")
         return [],[],0,0 
-
-    try:
-        country = lowercase_initial_country(country) # this lowercase the inputed country
-    except:
-        print("Error with main function country argument")
-        return [],[],0,0     
+    
+    country = lowercase_initial_country(country) # this lowercase the inputed country  
 
     #functions that find the position of inputed headers (the last arguement) in the headers lists o this respective data can be found later 
     pos_Country_in_header_list = pos_of_keys(csv_data,"country")
