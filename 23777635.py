@@ -21,7 +21,7 @@ def lowercase_initial_country(target_country_name): # lowecases the inputed coun
     return target_country_name.lower()
 
 def csv_to_dict(file_name):# file_name can be the path with the file name 
-    Data_on_organisations = open(file_name,"r") # this creates a file object, the object is set to read which only allows us to read the data about organisations
+    Data_on_organisations = open(file_name,"r",encoding='utf-8-sig') # this creates a file object, the object is set to read which only allows us to read the data about organisations
     # note the file is meant to take an output from the 
 
     first_line_of_file = Data_on_organisations.readline() # this reads the topline of the file and returns it as a single string, readline adds a \n we need to get rid of this
@@ -67,7 +67,7 @@ def pos_of_keys(dictionary_of_csv,headerlookingfor):# this function finds the po
         if i.lower() == headerlookingfor.lower():
             return position
         position += 1
-    else: return None
+    
 
 def positions_of_items(csv_dict,pos_header,term_find): # a function to find positions of objects that correspond to the term_find, csv_dict is the list containing all the data, returns a list of the valid objects, note since its a list and the header line is not in the dictionary lists the values outputted are 2 less than the excel's position value
     positions_in_list = [] # a blank list to append item positions to
@@ -198,65 +198,74 @@ def main(csvfile,country):
         return [],[],0,0 
     
     try:
-        csv_data = csv_to_dict(csvfile) # this creates a list that contains the a list of the headers and a dictionary (that contains lists of all the data under each header) each in a seperate list space  
+        csv_data = csv_to_dict(csvfile) # this creates a list that contains the a list of the headers and a dictionary (that contains lists of all the data under each header) each in a seperate list space      
     except:
         print("Error with csv conversion to a dictionary")
         return [],[],0,0 
     
+
+    if csv_data[0] == {'':[]}:
+        print("CSV is empty of data")
+        return [],[],0,0 
+
+    if csv_data[1] == ['']:
+        print("Headers list is empty")
+        return [],[],0,0 
+
     try:
         country = lowercase_initial_country(country) # this lowercase the inputed country
     except:
-        print("Error with country argument")
+        print("Error with main function country argument")
         return [],[],0,0     
 
-    # header positions in header lists 
+    #functions that find the position of headers and their respective data 
     try:
         pos_Country_in_header_list = pos_of_keys(csv_data,"country") # this will return the position in the list of headers that the country header is stored so that the header key can be called to call the list storing country name of each organisation    
     except:
-        print("Error with finding list position of header for: country")
+        print("Unable to find list position of header for: country")
         return [],[],0,0
 
     try:
         pos_Founded_year_in_header_list = pos_of_keys(csv_data,"founded") # this will return the position in the list of headers that the founded year header is stored so that the header key can be called to call the list storing year of founding of each organisation    
     except:
-        print("Error with finding list position of header for: year founded")
+        print("Unable to find list position of header for: year founded")
         return [],[],0,0
 
     try:
         pos_Number_of_employees_in_header_list = pos_of_keys(csv_data,"Number of employees")
     except:
-        print("Error with finding list position of header for: number of employees")
+        print("Unable to find list position of header for: number of employees")
         return [],[],0,0
     
     try:
         pos_company_names_in_header_list = pos_of_keys(csv_data,"Name")
     except:
-        print("Error with finding list position of header for: company name")
+        print("Unable to find list position of header for: company name")
         return [],[],0,0
     
     try:
         pos_median_salary_in_header_list = pos_of_keys(csv_data,"Median Salary")
     except:
-        print("Error with finding list position of header for: median")
+        print("Unable to find list position of header for: median")
         return [],[],0,0
 
     try:
         pos_21_profit_in_header_list = pos_of_keys(csv_data,"Profits in 2021(Million)")
     except:
-        print("Error with finding list position of header for: profits in 2021")
+        print("Unable to find list position of header for: profits in 2021")
         return [],[],0,0
     
     try:
         pos_20_profit_in_header_list = pos_of_keys(csv_data,"Profits in 2020(Million)")
     except:
-        print("Error with finding list position of header for: profits in 2020")
+        print("Unable to find list position of header for: profits in 2020")
         return [],[],0,0
 
     #country check
     try:
         companies_in_target_country = positions_of_items(csv_data, pos_Country_in_header_list,country)
     except:
-        print("Error with finding companies in target countries")
+        print("Unable to find companies in target countries")
         return [],[],0,0
 
     #list of all organisations median salary positions, for use in total org medium salary standard deviation
@@ -267,38 +276,52 @@ def main(csvfile,country):
         return [],[],0,0
 
     #q1
+    #checking 
+    
     Companies_in_target_years_and_country = rangecheck(csv_data,lower_year_limit,upper_year_limit,companies_in_target_country, pos_Founded_year_in_header_list)
     highest_lowest_employ = high_and_low_count(csv_data,Companies_in_target_years_and_country,pos_Number_of_employees_in_header_list)
     companies_max_and_min_employee_list = min_max_company_name(csv_data,highest_lowest_employ,pos_company_names_in_header_list) # q1 answer 
     #q1 answer ^, this contains the list of the solutions 
 
     #q2 country SD
-    Country_SD = standard_deviation_calculator(csv_data,companies_in_target_country,pos_median_salary_in_header_list)
+    if len(companies_in_target_country) > 1:
+        Country_SD = standard_deviation_calculator(csv_data,companies_in_target_country,pos_median_salary_in_header_list)
+    elif len(companies_in_target_country) <= 1:
+        Country_SD = 0
 
     #q2 total org SD 
-    Total_org_SD = standard_deviation_calculator(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list)
+    if len(all_org_median_salary_pos) > 1:
+        Total_org_SD = standard_deviation_calculator(csv_data,all_org_median_salary_pos,pos_median_salary_in_header_list)
+    elif len(companies_in_target_country) <= 1:
+        Total_org_SD = 0
     Calculated_SD = [round(Country_SD,4),round(Total_org_SD,4)]
 
-    #q3
+    #q3, ratio calc
     pos_neg_profit = net_diff(csv_data,companies_in_target_country,pos_21_profit_in_header_list,pos_20_profit_in_header_list)
-    pos_neg_ratio = ratio_calc(pos_neg_profit)
-    pos_neg_ratio = round(pos_neg_ratio,4)
+    if abs(sum(pos_neg_profit[1])) <= 0:
+        pos_neg_ratio = 0
+    else:
+        pos_neg_ratio = ratio_calc(pos_neg_profit)
+        pos_neg_ratio = round(pos_neg_ratio,4)
 
-    #q4
+    #q4, correlation calc
     country_met_profit_country = pos_neg_profit[2] # gives the list positions for the companies that meet criteria
     median_salary_mean = mean_calc(csv_data,country_met_profit_country,pos_median_salary_in_header_list) # mean value of median salary
     profits_mean = mean_calc(csv_data,country_met_profit_country,pos_21_profit_in_header_list) # mean value of profits 
     numerator = diff_sum_xy(csv_data,country_met_profit_country,profits_mean,pos_21_profit_in_header_list,median_salary_mean,pos_median_salary_in_header_list)
     diff_sum_squared_median = diff_sum_squared(csv_data,country_met_profit_country,pos_median_salary_in_header_list,median_salary_mean)
     diff_sum_squared_profit = diff_sum_squared(csv_data,country_met_profit_country,pos_21_profit_in_header_list,profits_mean)
-    correlation = correlation_calc(numerator,diff_sum_squared_median*diff_sum_squared_profit)
-    correlation = round(correlation,4)
+    if (diff_sum_squared_median*diff_sum_squared_profit) == 0:
+        correlation = 0
+    else:
+        correlation = correlation_calc(numerator,diff_sum_squared_median*diff_sum_squared_profit)
+        correlation = round(correlation,4)
 
     return companies_max_and_min_employee_list,Calculated_SD, pos_neg_ratio, correlation
-    #return none
 
-#print(main("Organisations","Australia"))
+
+print(main("Organisations","Australia"))
 #main("Organisations.csv","Korea")
 #main("Organisations.csv","El Salvador")
 #print(main("Organisations.csv","Australia"))
-print(main("a.csv","Australia"))
+#print(main("a.csv","Australia"))
