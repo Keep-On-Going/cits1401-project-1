@@ -14,7 +14,6 @@ lower_year_limit = 1981
 def csv_file_appender(csvfile): # makes sure the file has the .csv ending to allow for correct file call 
     if ".csv" not in csvfile:
         csvfile = csvfile +".csv"
-        #print(csvfile)
     return csvfile
 
 def lowercase_initial_country(target_country_name): # lowecases the inputed country
@@ -88,14 +87,12 @@ def rangecheck(csv_dict,lowrange,highrange,pos_list,pos_header): # checks poslit
 # returns list with max and min company positions
 def high_and_low_count(csv_dict,poslist,pos_header): #poslist is the list of positions of data in the dictionary lists
     # Defining variables for the function calculation 
-    ###print(int(csv_dict[0][csv_dict[1][pos_header]][poslist[0]]))
     start_number = int(csv_dict[0][csv_dict[1][pos_header]][poslist[0]])
     largest_number = start_number
     smallest_number = start_number
     max_company_list_pos = poslist[0]
     min_company_list_pos = poslist[0] 
     for i in poslist: # finds the largest and smallest employee count 
-        print(i)
         if int(csv_dict[0][csv_dict[1][pos_header]][i]) > largest_number:
             largest_number =  int(csv_dict[0][csv_dict[1][pos_header]][i])
             max_company_list_pos = i 
@@ -211,62 +208,20 @@ def main(csvfile,country):
         print("Error with main function country argument")
         return [],[],0,0     
 
-    #functions that find the position of headers and their respective data 
-    try:
-        pos_Country_in_header_list = pos_of_keys(csv_data,"country") # this will return the position in the list of headers that the country header is stored so that the header key can be called to call the list storing country name of each organisation    
-    except:
-        print("Unable to find list position of header for: country")
-        return [],[],0,0
-
-    try:
-        pos_Founded_year_in_header_list = pos_of_keys(csv_data,"founded") # this will return the position in the list of headers that the founded year header is stored so that the header key can be called to call the list storing year of founding of each organisation    
-    except:
-        print("Unable to find list position of header for: year founded")
-        return [],[],0,0
-
-    try:
-        pos_Number_of_employees_in_header_list = pos_of_keys(csv_data,"Number of employees")
-    except:
-        print("Unable to find list position of header for: number of employees")
-        return [],[],0,0
-    
-    try:
-        pos_company_names_in_header_list = pos_of_keys(csv_data,"Name")
-    except:
-        print("Unable to find list position of header for: company name")
-        return [],[],0,0
-    
-    try:
-        pos_median_salary_in_header_list = pos_of_keys(csv_data,"Median Salary")
-    except:
-        print("Unable to find list position of header for: median")
-        return [],[],0,0
-
-    try:
-        pos_21_profit_in_header_list = pos_of_keys(csv_data,"Profits in 2021(Million)")
-    except:
-        print("Unable to find list position of header for: profits in 2021")
-        return [],[],0,0
-    
-    try:
-        pos_20_profit_in_header_list = pos_of_keys(csv_data,"Profits in 2020(Million)")
-    except:
-        print("Unable to find list position of header for: profits in 2020")
-        return [],[],0,0
+    #functions that find the position of inputed headers (the last arguement) in the headers lists o this respective data can be found later 
+    pos_Country_in_header_list = pos_of_keys(csv_data,"country")
+    pos_Founded_year_in_header_list = pos_of_keys(csv_data,"founded") 
+    pos_Number_of_employees_in_header_list = pos_of_keys(csv_data,"Number of employees")
+    pos_company_names_in_header_list = pos_of_keys(csv_data,"Name")
+    pos_median_salary_in_header_list = pos_of_keys(csv_data,"Median Salary")
+    pos_21_profit_in_header_list = pos_of_keys(csv_data,"Profits in 2021(Million)")
+    pos_20_profit_in_header_list = pos_of_keys(csv_data,"Profits in 2020(Million)")
 
     #country check
-    try:
-        companies_in_target_country = positions_of_items(csv_data, pos_Country_in_header_list,country)
-    except:
-        print("Unable to find companies in target countries")
-        return [],[],0,0
+    companies_in_target_country = positions_of_items(csv_data, pos_Country_in_header_list,country)
 
     #list of all organisations median salary positions, for use in total org medium salary standard deviation
-    try:
-        all_org_median_salary_pos = pos_of_numbers(csv_data,pos_median_salary_in_header_list)
-    except:
-        print("Unable to find median salary data")
-        return [],[],0,0
+    all_org_median_salary_pos = pos_of_numbers(csv_data,pos_median_salary_in_header_list)
 
     #q1
     #checking 
@@ -316,6 +271,6 @@ def main(csvfile,country):
     return companies_max_and_min_employee_list,Calculated_SD, pos_neg_ratio, correlation
 
 
-#print(main("Organisations","Australia"))
-#main("Organisations.csv","Korea")
+print(main("Organisations","Australia"))
+print(main("Organisations.csv","Korea"))
 print(main("Organisations.csv","El Salvador"))
