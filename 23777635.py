@@ -228,6 +228,7 @@ def main(csvfile,country):
     numerator = diff_sum_xy(csv_data,country_met_profit_country,profits_mean,pos_21_profit_in_header_list,median_salary_mean,pos_median_salary_in_header_list)
     diff_sum_squared_median = diff_sum_squared(csv_data,country_met_profit_country,pos_median_salary_in_header_list,median_salary_mean)
     diff_sum_squared_profit = diff_sum_squared(csv_data,country_met_profit_country,pos_21_profit_in_header_list,profits_mean)
+
     if (diff_sum_squared_median*diff_sum_squared_profit) == 0:
         correlation = 0
     else:
