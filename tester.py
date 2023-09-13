@@ -1,4 +1,8 @@
 def csv_to_dict(file_name):# file_name can be the path with the file name 
+    #making file_name a raw file so we can call the path no matter the os
+    file_name= repr(file_name)[1:-1]
+    print(file_name)
+
     Data_on_organisations = open(file_name,"r",encoding='utf-8-sig') # this creates a file object, the object is set to read which only allows us to read the data about organisations
     # note the file is meant to take an output from the 
 
@@ -23,5 +27,8 @@ def csv_to_dict(file_name):# file_name can be the path with the file name
     return [dict_of_org_data, list_of_org_dict_keys]
 
 
-a = open("/Users/jeff/Downloads/Organisations.csv","r",encoding='utf-8-sig')
-print(a.readline())
+#a = open("/Users/jeff/Downloads/Organisations.csv","r",encoding='utf-8-sig')
+#print(a.readline())
+csv_to_dict("/Users/jeff/Downloads/Organisations.csv")
+csv_to_dict("C:\Users\Vince\OneDrive\Documents\GitHub\cits1401\Organisations")
+
