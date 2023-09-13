@@ -248,4 +248,6 @@ def main(csvfile,country):
 print(main("Organisations","Australia"))
 print(main("Organisations.csv","Korea"))
 print(main("Organisations.csv","El Salvador"))
-print(main(r"C:\Users\Vince\OneDrive\Documents\GitHub\cits1401\Organisations","Australia"))
+print(main(r"/Users/jeff/Downloads/Organisations.csv","Australia"))
+print(main("/Users/jeff/Downloads/Organisations.csv","Australia"))
+#print(main(r"C:\Users\Vince\OneDrive\Documents\GitHub\cits1401\Organisations","Australia"))
