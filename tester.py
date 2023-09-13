@@ -32,3 +32,10 @@ def csv_to_dict(file_name):# file_name can be the path with the file name
 csv_to_dict("/Users/jeff/Downloads/Organisations.csv")
 csv_to_dict("C:\Users\Vince\OneDrive\Documents\GitHub\cits1401\Organisations")
 
+#print(main("Organisations.csv","Australia"))
+#print(main("Organisations.csv","Belgium"))
+#print(main("Organisations.csv","Korea"))
+#print(main("Organisations.csv","El Salvador"))
+#print(main(r"/Users/jeff/Downloads/Organisations.csv","Australia"))
+#print(main("/Users/jeff/Downloads/Organisations.csv","Australia"))
+#print(main(r"C:\Users\Vince\OneDrive\Documents\GitHub\cits1401\Organisations","Australia"))

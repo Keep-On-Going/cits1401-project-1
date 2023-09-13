@@ -4,15 +4,11 @@
 upper_year_limit = 2000
 lower_year_limit = 1981
 
-def csv_file_appender(csvfile): # makes sure the file has the .csv ending to allow for correct file call 
-    if ".csv" not in csvfile:
-        csvfile = csvfile +".csv"
-    return csvfile
-
 def lowercase_initial_country(target_country_name): # lowecases the inputed country
     return target_country_name.lower()
 
 def csv_to_dict(file_name):# file_name can be the path with the file name 
+    file_name= repr(file_name)[1:-1] # this is just in case the path contains a \n
     Data_on_organisations = open(file_name,"r",encoding='utf-8-sig') # this creates a file object, the object is set to read which only allows us to read the data about organisations
     # note the file is meant to take an output from the 
 
@@ -58,7 +54,6 @@ def pos_of_keys(dictionary_of_csv,headerlookingfor):# this function finds the po
             return position
         position += 1
     
-
 def positions_of_items(csv_dict,pos_header,term_find): # a function to find positions of objects that correspond to the term_find, csv_dict is the list containing all the data, returns a list of the valid objects, note since its a list and the header line is not in the dictionary lists the values outputted are 2 less than the excel's position value
     positions_in_list = [] # a blank list to append item positions to
     pos = 0
@@ -140,7 +135,6 @@ def net_diff(csv_dict,pos_list,pos_header_21,pos_header_20): # pos_list is the l
             neg_dif_pos.append(i)
     return [pos_dif,neg_dif,pos_dif_pos,neg_dif_pos]
 
-
 #calculates the ratio of net pos/net neg 
 def ratio_calc(list_of_pos_neg):
     abs_pos_vals = abs(sum(list_of_pos_neg[0]))
@@ -177,8 +171,6 @@ def correlation_calc(numerator,denominator):
     return correlation
 
 def main(csvfile,country):
-
-    csvfile = csv_file_appender(csvfile)   # adds csv to the file
     csv_data = csv_to_dict(csvfile) # this creates a list that contains the a list of the headers and a dictionary (that contains lists of all the data under each header) each in a seperate list space      
     country = lowercase_initial_country(country) # this lowercase the inputed country  
 
@@ -241,13 +233,4 @@ def main(csvfile,country):
     else:
         correlation = correlation_calc(numerator,diff_sum_squared_median*diff_sum_squared_profit)
         correlation = round(correlation,4)
-
     return companies_max_and_min_employee_list,Calculated_SD, pos_neg_ratio, correlation
-
-
-print(main("Organisations","Australia"))
-print(main("Organisations.csv","Korea"))
-print(main("Organisations.csv","El Salvador"))
-print(main(r"/Users/jeff/Downloads/Organisations.csv","Australia"))
-print(main("/Users/jeff/Downloads/Organisations.csv","Australia"))
-#print(main(r"C:\Users\Vince\OneDrive\Documents\GitHub\cits1401\Organisations","Australia"))
