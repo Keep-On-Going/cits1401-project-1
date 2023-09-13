@@ -8,7 +8,6 @@ def lowercase_initial_country(target_country_name): # lowecases the inputed coun
     return target_country_name.lower()
 
 def csv_to_dict(file_name):# file_name can be the path with the file name 
-    file_name= repr(file_name)[1:-1] # this is just in case the path contains a \n
     Data_on_organisations = open(file_name,"r",encoding='utf-8-sig') # this creates a file object, the object is set to read which only allows us to read the data about organisations
     # note the file is meant to take an output from the 
 
