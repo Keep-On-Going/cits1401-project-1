@@ -27,10 +27,17 @@ def csv_to_dict(file_name):# file_name can be the path with the file name
     return [dict_of_org_data, list_of_org_dict_keys]
 
 
+def a(min):
+    min= repr(min)[1:-1]
+    return min
+
+
+print(a("A"))
+print(a("\n"))
 #a = open("/Users/jeff/Downloads/Organisations.csv","r",encoding='utf-8-sig')
 #print(a.readline())
-csv_to_dict("/Users/jeff/Downloads/Organisations.csv")
-csv_to_dict("C:\Users\Vince\OneDrive\Documents\GitHub\cits1401\Organisations")
+#csv_to_dict("/Users/jeff/Downloads/Organisations.csv")
+#csv_to_dict("C:\Users\Vince\OneDrive\Documents\GitHub\cits1401\Organisations")
 
 #print(main("Organisations.csv","Australia"))
 #print(main("Organisations.csv","Belgium"))
