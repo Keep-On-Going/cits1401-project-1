@@ -1,8 +1,6 @@
 #Code by Vincent Jeff Liu, UWA Student ID: 23777635
 #Python project 1 for CITS1401
 
-#if file name is a path it NEEDS to be a raw string or the argument won't accept it 
-
 upper_year_limit = 2000
 lower_year_limit = 1981
 
